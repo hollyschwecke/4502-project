@@ -1,6 +1,8 @@
 # Weather Patterns and Wildfire Analysis 
-## CSPB4502 Data Mining Project
-## The 8-Team: Holly Schwecke & Matthew Presti 
+### CSPB4502 Data Mining Project
+### The 8-Team: Holly Schwecke & Matthew Presti 
+
+
 
 ## Project Overview
 This data mining project aims to analyze the relationship between weather patterns and wildfire activity in the western United States. By combining comprehensive weather data from NOAA with NASA MODIS satellite wildfire data, we seek to identify causative factors in wildfire activity and perhaps develop predictive insights for fire season severity. We will also search for predictive trends related to periods of extreme winds both in the presence and absence of wildfire to ideally reveal novel insights for wildfire predicition and mitigation.  
