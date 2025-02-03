@@ -16,7 +16,7 @@ This data mining project aims to analyze the relationship between weather patter
 
 ### 1. NOAA Daily Summaries
 - **Source**: National Oceanic and Atmospheric Administration (NOAA)
-- **URL**: https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/locations/CLIM:109/detail
+- **URL**: https://www.kaggle.com/datasets/noaa/noaa-global-surface-summary-of-the-day?select=gsod_all_years.zip
 - **Description**: Comprehensive daily weather summaries including temperature, precipitation, wind data
 - **Size**: Multiple millions of records
 - **Format**: CSV
