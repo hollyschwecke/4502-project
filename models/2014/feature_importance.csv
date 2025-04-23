@@ -1,0 +1,11 @@
+Feature,Importance
+temp_precip_ratio,0.40520924
+avg_max_temp_30d,0.17446294
+avg_dewpoint,0.11282095
+avg_temp_30d,0.10912692
+max_wind_speed,0.08488307
+avg_wind_speed,0.07408532
+max_temp_30d,0.024478499
+fire_month,0.01233508
+days_without_rain,0.00156738
+total_precip_30d,0.0010306373
