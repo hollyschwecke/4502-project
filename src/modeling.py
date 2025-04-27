@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#modeling.py
 """
 Simplified modeling module for wildfire prediction project.
 """
@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, r2_score
 
 def build_model(features_df):
-    """Build XGBoost regression model to predict fire intensity (FRP)."""
+    """Build XGBoost regression model to predict fire intensity (max FRP)."""
     if features_df is None or features_df.empty:
         print("No feature data available for modeling")
         return None, None, None
@@ -22,6 +22,8 @@ def build_model(features_df):
     
     # Define features to use - simplified list
     feature_columns = [
+        'num_detections',  # New feature for event-based modeling
+        'fire_duration_days',  # New feature for event-based modeling
         'avg_temp_30d', 'max_temp_30d', 'avg_max_temp_30d',
         'total_precip_30d', 'days_without_rain',
         'avg_wind_speed', 'max_wind_speed',
@@ -34,9 +36,9 @@ def build_model(features_df):
     
     print(f"Using {len(valid_features)} features: {valid_features}")
     
-    # Prepare data
+    # Prepare data - now using max_frp as target
     X = features_df[valid_features]
-    y = features_df['fire_frp']
+    y = features_df['fire_max_frp']  # Change from fire_frp to fire_max_frp
     
     # Scale features
     scaler = StandardScaler()
@@ -83,7 +85,8 @@ def build_model(features_df):
 
 def load_features(year):
     """Load feature data for modeling."""
-    features_path = f'../data/features/{year}/wildfire_features_{year}.csv'
+    # Updated path to reflect event-based features
+    features_path = f'../data/features/{year}/wildfire_event_features_{year}.csv'
     try:
         features = pd.read_csv(features_path)
         print(f"Loaded feature data with {len(features)} records")
@@ -91,7 +94,7 @@ def load_features(year):
     except FileNotFoundError:
         print(f"Feature data not found at {features_path}")
         return None
-
+    
 def save_model(model, scaler, importance_df, year):
     """Save model and related data."""
     output_dir = f'../models/{year}'

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#data_loading.py
 """
 Simplified data loading module for wildfire prediction project.
 Loads pre-filtered California wildfire data and NOAA weather data.

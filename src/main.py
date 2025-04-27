@@ -38,8 +38,8 @@ def main():
         return
     
     # 1. Data Loading
-    print("\nStep 1: Data Loading")
-    if not run_command(f"python data_loading.py --year={year} --wildfire_file={wildfire_file}"):
+    print("\nStep 1: Data Preprocessing")
+    if not run_command(f"python preprocessing.py --year={year} --wildfire_file={wildfire_file}"):
         print("Data loading failed. Please check the files and try again.")
         return
     
@@ -55,7 +55,7 @@ def main():
         print("Modeling failed. Please check the previous step's output.")
         return
     
-    # 4. Visualization (new step)
+    # 4. Visualization 
     if not args.skip_visualization:
         print("\nStep 4: Creating Visualizations")
         if not run_command(f"python visualization.py --year={year}"):

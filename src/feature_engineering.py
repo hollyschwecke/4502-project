@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#feature_engineering.py
+
 """
 Simplified feature engineering for wildfire prediction project.
 """
@@ -8,13 +9,33 @@ import numpy as np
 import argparse
 from scipy.spatial import cKDTree
 from datetime import timedelta
+def load_data(year):
+    """Load processed data for feature engineering."""
+    data_dir = f'../data/processed/{year}'
+    
+    try:
+        # Change to load wildfire events instead of individual detections
+        wildfire_events = pd.read_csv(os.path.join(data_dir, f'wildfire_events_{year}.csv'))
+        wildfire_events['start_date'] = pd.to_datetime(wildfire_events['start_date'])
+        wildfire_events['end_date'] = pd.to_datetime(wildfire_events['end_date'])
+        
+        weather = pd.read_csv(os.path.join(data_dir, f'weather_{year}.csv'))
+        weather['DATE'] = pd.to_datetime(weather['DATE'])
+        
+        stations = pd.read_csv(os.path.join(data_dir, f'stations_{year}.csv'))
+        
+        return wildfire_events, weather, stations
+    
+    except FileNotFoundError as e:
+        print(f"Error loading data: {e}")
+        return None, None, None
 
-def create_weather_features(wildfire_df, weather_df, stations_df, days_lookback=30):
+def create_weather_features(wildfire_events_df, weather_df, stations_df, days_lookback=30):
     """
-    Create weather features for each wildfire by looking back at weather data
-    from the nearest station for the specified number of days.
+    Create weather features for each wildfire event by looking back at weather data
+    from the nearest station for the specified number of days before the start date.
     """
-    if wildfire_df is None or weather_df is None or stations_df is None:
+    if wildfire_events_df is None or weather_df is None or stations_df is None:
         print("Missing data for feature engineering")
         return None
     
@@ -26,18 +47,18 @@ def create_weather_features(wildfire_df, weather_df, stations_df, days_lookback=
     # Create empty dataframe to store results
     result_rows = []
     
-    # Process each wildfire
-    for idx, fire in wildfire_df.iterrows():
+    # Process each wildfire event
+    for idx, fire in wildfire_events_df.iterrows():
         if idx % 100 == 0:
-            print(f"Processing wildfire {idx}/{len(wildfire_df)}")
+            print(f"Processing wildfire event {idx}/{len(wildfire_events_df)}")
         
         # Find nearest weather station
         distance, index = tree.query([fire['latitude'], fire['longitude']])
         station_id = stations_df.iloc[index]['STATION']
         station_name = stations_df.iloc[index]['NAME']
         
-        # Get fire date
-        fire_date = fire['datetime']
+        # Get fire start date
+        fire_date = fire['start_date']
         
         # Get weather data for the preceding days
         station_weather = weather_df[weather_df['STATION'] == station_id]
@@ -47,22 +68,24 @@ def create_weather_features(wildfire_df, weather_df, stations_df, days_lookback=
         ]
         
         # Skip if no weather data available
-        if len(past_weather) < 5:  # Require at least 5 days of weather data
+        if len(past_weather) < 5:  
             continue
         
         # Calculate features from weather history
         features = {
-            'fire_id': idx,
-            'fire_date': fire_date,
+            'event_id': fire['event_id'],
+            'fire_start_date': fire['start_date'],
+            'fire_end_date': fire['end_date'],
+            'fire_duration_days': fire['duration_days'],
             'fire_latitude': fire['latitude'],
             'fire_longitude': fire['longitude'],
-            'fire_frp': fire['frp'],
-            'confidence': fire['confidence'],
+            'fire_max_frp': fire['max_frp'],
+            'fire_avg_frp': fire['avg_frp'],
+            'fire_total_frp': fire['total_frp'],
+            'confidence': fire['max_confidence'],
             'station_id': station_id,
             'station_name': station_name,
             'station_distance_km': distance * 111,  # Approx conversion from degrees to km
-            'fire_month': fire['month'],
-            'fire_year': fire['year'],
             
             # Temperature features
             'avg_temp_30d': past_weather['TEMP'].mean(),
@@ -94,30 +117,13 @@ def create_weather_features(wildfire_df, weather_df, stations_df, days_lookback=
     else:
         print("No features created, check data compatibility")
         return None
-
-def load_data(year):
-    """Load processed data for feature engineering."""
-    data_dir = f'../data/processed/{year}'
     
-    try:
-        wildfires = pd.read_csv(os.path.join(data_dir, f'wildfires_{year}.csv'))
-        wildfires['datetime'] = pd.to_datetime(wildfires['datetime'])
-        
-        weather = pd.read_csv(os.path.join(data_dir, f'weather_{year}.csv'))
-        weather['DATE'] = pd.to_datetime(weather['DATE'])
-        
-        stations = pd.read_csv(os.path.join(data_dir, f'stations_{year}.csv'))
-        
-        return wildfires, weather, stations
-    except FileNotFoundError as e:
-        print(f"Error loading data: {e}")
-        return None, None, None
-
 def save_features(df, year):
     """Save feature data to CSV."""
     output_dir = f'../data/features/{year}'
     os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, f'wildfire_features_{year}.csv')
+    # Updated filename to reflect event-based features
+    output_path = os.path.join(output_dir, f'wildfire_event_features_{year}.csv')
     df.to_csv(output_path, index=False)
     print(f"Saved feature data to {output_path}")
 
