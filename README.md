@@ -23,7 +23,7 @@ Understanding the relationship between weather variables and fire intensity can 
 ## Video Presentation
 https://www.youtube.com/watch?v=tzcaMViA1gc
 
-## Final Paper
-Group8_WildfirePrediction_Part4.pdf
+## Final Report
+[Final Report](Group8_WildfirePrediction_Part4.pdf)
 ---
 *Note: This project is part of CSPB-4502 Data Mining course.*
