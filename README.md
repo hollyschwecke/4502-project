@@ -81,5 +81,15 @@ This data mining project aims to analyze the relationship between weather patter
 - Dataset details and availability
 - Proposed methodology
 - Tools and evaluation metrics
+
+## Findings
+1. Higher temperatures and longer periods without rain show slight positive relationships with fire intensity, suggesting they contribute modestly to elevated wildfire activity. Precipitation and dewpoint did not show strong links, indicating they are less reliable predictors on their own.
+2. Wind speed alone does not atrongly correlate with fire intensity, meaning extreme winds are not a strong standalone predictor of elevated fire risk without other contributing factors.
+3. High temperatures and extended dry periods appear most useful for forecasting severe fire seasons. Dewpoint, precipitation, and wind speed were less predictive individually but could add value when combined with other factors.
+
+## Video Presentation
+https://www.youtube.com/watch?v=tzcaMViA1gc
+
+## Final Paper
 ---
 *Note: This project is part of CSPB-4502 Data Mining course.*
