@@ -87,6 +87,9 @@ This data mining project aims to analyze the relationship between weather patter
 2. Wind speed alone does not atrongly correlate with fire intensity, meaning extreme winds are not a strong standalone predictor of elevated fire risk without other contributing factors.
 3. High temperatures and extended dry periods appear most useful for forecasting severe fire seasons. Dewpoint, precipitation, and wind speed were less predictive individually but could add value when combined with other factors.
 
+## Application
+Understanding the relationship between weather variables and fire intensity can greatly improve wildfire prediction, management, and prevention strategies. By recognizing that higher temperatures and longer dry periods slightly increase fire intensity, agencies can enhance early warning systems, better allocate firefighting resources, and plan public safety campaigns more effectively. This knowledge also supports smarter urban planning, guiding the development of fire-resistant infrastructure in high-risk areas. In agriculture and forestry, it can inform practices like controlled burns and vegetation management to reduce fuel loads. Additionally, as climate change intensifies heat and drought conditions, these insights are critical for modeling future wildfire risks and shaping environmental policies. Overall, focusing on temperature and dryness, rather than wind alone, allows for more targeted and proactive wildfire preparedness. 
+
 ## Video Presentation
 https://www.youtube.com/watch?v=tzcaMViA1gc
 
